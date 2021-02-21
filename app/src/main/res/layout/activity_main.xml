@@ -15,29 +15,26 @@
         android:id="@+id/amount_days"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="22dp"
         android:fontFamily="@font/magnolia_script"
-        android:gravity="center"
-        android:text="99999
-"
+        android:gravity="left"
+        android:text="0"
         android:textColor="@color/firebrick"
         android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/days"
         app:layout_constraintTop_toBottomOf="@+id/amount_month" />
 
     <TextView
         android:id="@+id/days"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="215dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="142dp"
         android:gravity="center"
         android:text="@string/day"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/amount_days"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/months" />
 
     <TextView
@@ -46,10 +43,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="132dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="14dp"
+        android:layout_marginEnd="22dp"
         android:fontFamily="@font/magnolia_script"
-        android:gravity="center"
-        android:text="999"
+        android:gravity="right"
+        android:text="0"
         android:textColor="@color/firebrick"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/months"
@@ -60,12 +57,12 @@
         android:id="@+id/months"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="215dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/month"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/amount_years"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/years" />
 
     <TextView
@@ -73,12 +70,15 @@
         android:layout_width="410dp"
         android:layout_height="32dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="1dp"
         android:fontFamily="@font/magnolia_script"
         android:gravity="center"
         android:text="@string/title"
         android:textColor="@color/firebrick"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/mainOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <ImageView
@@ -99,7 +99,7 @@
         android:layout_height="30dp"
         android:fontFamily="@font/magnolia_script"
         android:gravity="center"
-        android:text="11 months"
+        android:text="You're alone"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,8 +146,8 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="22dp"
         android:fontFamily="@font/magnolia_script"
-        android:gravity="center"
-        android:text="99"
+        android:gravity="right"
+        android:text="0"
         android:textColor="@color/firebrick"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/years"
@@ -159,22 +159,35 @@
         android:id="@+id/years"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="215dp"
         android:layout_marginTop="31dp"
         android:gravity="center"
         android:text="@string/year"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/amount_years"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/DateBanner"
         android:layout_width="411dp"
         android:layout_height="22dp"
-        android:text="@string/date"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="136dp"
+        android:layout_marginTop="8dp"
+        android:background="#99000000"
         android:fontFamily="@font/magnolia_script"
-        />
+        android:gravity="center"
+        android:textColor="@color/firebrick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainOut" />
+
+    <Button
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="16dp"
+        android:text="Pick Date"
+        app:layout_constraintEnd_toEndOf="@+id/photo"
+        app:layout_constraintTop_toBottomOf="@+id/DateBanner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
