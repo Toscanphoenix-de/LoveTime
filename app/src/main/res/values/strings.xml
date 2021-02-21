@@ -12,6 +12,32 @@
     <string name="about">About</string>
     <string name="help">Help</string>
 
-    <string name="date">06.10.2020</string>
+    <!-- Date over Picture -->
+    <string name="date">%1$d.%2$d.%3$d</string>
+
+
+    <!-- Been together -->
+    <string name="fresh">Freshly together</string>
+
+    <string name="been_together_day">%1$d day</string>
+    <string name="been_together_days">%1$d days</string>
+
+    <string name="been_together_month">%1$d month</string>
+    <string name="been_together_month_day">%1$d month %2$d day </string>
+    <string name="been_together_month_days">%1$d month %2$d days </string>
+    <string name="been_together_months">%1d months</string>
+    <string name="been_together_months_day">%1d months %2$d day</string>
+    <string name="been_together_months_days">%1d months %2$d days</string>
+
+    <string name="been_together_year">%1$d year</string>
+    <string name="been_together_year_day">%1$d year %2$d day </string>
+    <string name="been_together_year_days">%1$d year %2$d days </string>
+    <string name="been_together_year_month">%1d year %2$d month</string>
+    <string name="been_together_year_months">%1d year %2$d months</string>
+    <string name="been_together_years">%1$d years</string>
+    <string name="been_together_years_day">%1$d years %2$d day </string>
+    <string name="been_together_years_days">%1$d years %2$d days </string>
+    <string name="been_together_years_month">%1d years %2$d month</string>
+    <string name="been_together_years_months">%1d years %2$d months</string>
 
 </resources>
