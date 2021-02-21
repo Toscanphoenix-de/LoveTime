@@ -36,19 +36,15 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         pickDate()
 
-
-
-
     }
 
 
 
-    /** Date Picker **/
+
 
     private fun pickDate() {
         findViewById<Button>(R.id.datePicker).setOnClickListener{
             getDateCalender()
-
             DatePickerDialog(this, this,year,month,day).show()
         }
     }
@@ -116,6 +112,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
 
 
+            // Ausgabe entsprechend der menge an einehiten mit oder ohne s
                 if (years > 0) {
 
                      if (years > 1 && months > 1)
@@ -171,14 +168,16 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
+    //Menu
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var inflater = menuInflater
         inflater.inflate(R.menu.main_menu,menu)
         return true
     }
 }
 
+    //Calculator
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCalc(string_ourDate: String, date2: LocalDate): Period? {
 
