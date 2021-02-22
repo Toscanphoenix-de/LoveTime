@@ -1,15 +1,19 @@
 package com.fenni.kotlintry
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import java.lang.NullPointerException
 import java.time.LocalDate
 import java.time.Period
 import java.util.*
@@ -29,16 +33,40 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        var toolbar: Toolbar = findViewById(R.id.header)
-        setSupportActionBar(toolbar);
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val toolbar: Toolbar? = findViewById(R.id.header)
+        setSupportActionBar(toolbar)
+
+
+
+//        if (sharedPreferences.getInt("year", -1) == -1) {
+            val intent = Intent(this, FirstStartActivity::class.java)
+            startActivity(intent)
+            finish()
+        /*}else{
+            setContentView(R.layout.activity_main)
+        }*/
+
 
         pickDate()
 
     }
 
+    object runnable : Runnable {
+        override fun run() {
 
+        }
+    }
+
+    private fun checkAndSet(){
+
+        val year = this.getSharedPreferences("year",0)
+        val month = this.getSharedPreferences("month",0)
+        val day = this.getSharedPreferences("day",0)
+
+
+    }
 
 
 
@@ -46,8 +74,10 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         findViewById<Button>(R.id.datePicker).setOnClickListener{
             getDateCalender()
             DatePickerDialog(this, this,year,month,day).show()
+
         }
     }
+
 
     private fun getDateCalender(){
         val calendar = Calendar.getInstance()
@@ -64,9 +94,6 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         savedYear = year
 
         getDateCalender()
-
-        findViewById<TextView>(R.id.DateBanner).text = getString(R.string.date, savedDay, savedMonth, savedYear)
-
 
         val dateToday = LocalDate.now()
         when {
@@ -102,9 +129,11 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
             var months = period.months
             var years = period.years
 
-            println(days)
+            findViewById<TextView>(R.id.DateBanner).text = getString(R.string.date, savedDay, savedMonth, savedYear)
+
+            /*println(days)
             println(months)
-            println(years)
+            println(years)*/
 
             findViewById<TextView>(R.id.amount_days).text = days.toString()
             findViewById<TextView>(R.id.amount_month).text = months.toString()

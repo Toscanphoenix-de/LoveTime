@@ -15,6 +15,9 @@
     <!-- Date over Picture -->
     <string name="date">%1$d.%2$d.%3$d</string>
 
+    <string name="setDate">Since when are you together</string>
+    <string name="pickDate">Pick the day</string>
+
 
     <!-- Been together -->
     <string name="fresh">Freshly together</string>
