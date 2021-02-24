@@ -4,6 +4,8 @@ package com.fenni.kotlintry
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.DatePicker
@@ -11,21 +13,11 @@ import android.widget.TextView
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
-import com.fenni.kotlintry.FirstStartActivity.DbConstants.key_day
-import com.fenni.kotlintry.FirstStartActivity.DbConstants.key_month
-import com.fenni.kotlintry.FirstStartActivity.DbConstants.key_year
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
 
 class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
-    object DbConstants{
-        const val key_year = "year"
-        const val key_month = "month"
-        const val key_day = "day"
-    }
 
     var year = 0;
     var month = 0
@@ -56,25 +48,44 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
     @SuppressLint("ShowToast")
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        var saveYear = year
-        var saveMonth = month +1
+        val saveYear = year
+        val saveMonth = month +1
         var saveDay = dayOfMonth
 
-        var dateString = "$saveYear-$saveMonth-$saveDay"
+        var sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        var editor = sharedPref.edit()
 
-        val ref = FirebaseDatabase.getInstance().getReference("Dates")
+        editor.putInt("year", saveYear)
+        editor.putInt("month", saveMonth)
+        editor.putInt("day", saveDay)
 
-        ref.child("beenTogether").setValue(dateString).addOnCompleteListener {
-            Toast.makeText(applicationContext, "Date saved successfully",Toast.LENGTH_SHORT)
-        }
+        editor.apply()
+
+        Toast.makeText(this,"Date successfully stored", Toast.LENGTH_SHORT).show()
 
         loadData()
 
+        Thread.sleep(2000)
 
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun loadData(){
+        var sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
 
+        if (sharedPref != null){
+            var year = sharedPref.getInt("year", 2020)
+            var month = sharedPref.getInt("month",10)
+            var date = sharedPref.getInt("day", 6)
+
+            var dateString = "$date.$month.$year"
+
+            findViewById<TextView>(R.id.testView).text = dateString
+        }else{
+            Toast.makeText(this, "Used pref settings",Toast.LENGTH_SHORT)
+        }
 
 
     }

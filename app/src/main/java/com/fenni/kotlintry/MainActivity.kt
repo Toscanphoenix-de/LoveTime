@@ -1,16 +1,17 @@
 package com.fenni.kotlintry
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import java.lang.NullPointerException
@@ -18,82 +19,102 @@ import java.time.LocalDate
 import java.time.Period
 import java.util.*
 
-class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
-
-    var day = 0
-    var month = 0
-    var year = 0
-
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
+class MainActivity : AppCompatActivity(){
 
 
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("meetDate", Context.MODE_PRIVATE)
         val toolbar: Toolbar? = findViewById(R.id.header)
         setSupportActionBar(toolbar)
 
 
 
-//        if (sharedPreferences.getInt("year", -1) == -1) {
+        if (sharedPreferences.getInt("year", -1) == -1) {
             val intent = Intent(this, FirstStartActivity::class.java)
             startActivity(intent)
             finish()
-        /*}else{
+        }else{
             setContentView(R.layout.activity_main)
-        }*/
+        }
 
 
-        pickDate()
-
+        dateCheckAndSet()
+        pickImage()
     }
 
-    object runnable : Runnable {
-        override fun run() {
+    // image Picker
+    private fun pickImage() {
+        findViewById<Button>(R.id.img_picker).setOnClickListener{
+            //check runtime permission
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                    //denied
+                    val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestPermissions(permission, PERMISSION_CODE)
+                }
+                else{
+                    pickImageFromGallery()
+                }
 
+            }
+            else{
+                pickImageFromGallery()
+            }
         }
     }
 
-    private fun checkAndSet(){
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
 
-        val year = this.getSharedPreferences("year",0)
-        val month = this.getSharedPreferences("month",0)
-        val day = this.getSharedPreferences("day",0)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode){
+            PERMISSION_CODE -> {
+                if (grantResults.size > 0 && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED){
+                    pickImageFromGallery()
+                }
+                else{
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
 
+            }
+        }
 
     }
 
-
-
-    private fun pickDate() {
-        findViewById<Button>(R.id.datePicker).setOnClickListener{
-            getDateCalender()
-            DatePickerDialog(this, this,year,month,day).show()
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+            findViewById<ImageView>(R.id.photo).setImageURI(data?.data)
         }
     }
 
-
-    private fun getDateCalender(){
-        val calendar = Calendar.getInstance()
-        day = calendar.get(Calendar.DAY_OF_MONTH)
-        month= calendar.get(Calendar.MONTH)
-        year = calendar.get(Calendar.YEAR)
+    companion object {
+        private val IMAGE_PICK_CODE = 100
+        private val PERMISSION_CODE = 100
 
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        savedDay = dayOfMonth
-        savedMonth = month+1
-        savedYear = year
+    private fun dateCheckAndSet() {
+        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
 
-        getDateCalender()
+        val savedYear = sharedPref.getInt("year",0)
+        val savedMonth = sharedPref.getInt("month",0)
+        val savedDay = sharedPref.getInt("day",0)
+
+        findViewById<TextView>(R.id.dateBanner).text="$savedDay.$savedMonth.$savedYear"
 
         val dateToday = LocalDate.now()
         when {
@@ -115,21 +136,27 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                 onDateSetText(dateCalc(dateString,dateToday))
             }
         }
-
-
-
-
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onDateSetText(period: Period?){
         if (period != null) {
 
-            var days = period.days
-            var months = period.months
-            var years = period.years
-
-            findViewById<TextView>(R.id.DateBanner).text = getString(R.string.date, savedDay, savedMonth, savedYear)
+            val days = period.days
+            val months = period.months
+            val years = period.years
 
             /*println(days)
             println(months)
@@ -148,22 +175,22 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_years_months,years,months)
                     else if (years >= 1 && months == 1)
                         findViewById<TextView>(R.id.mainOut).text =getString(R.string.been_together_years_month,years,months)
-                    else if (years > 1 && month == 0 && days > 1)
+                    else if (years > 1 && months == 0 && days > 1)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_years_days,years, days)
-                    else if (years > 1 && month == 0 && days == 1)
+                    else if (years > 1 && months == 0 && days == 1)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_years_day,years, days)
-                    else if (years > 1 && month == 0 && days == 0)
+                    else if (years > 1 && months == 0 && days == 0)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_years,years)
 
                     else if (years == 1 && months > 1)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_year_months,years,months)
                     else if (years == 1 && months == 1)
                         findViewById<TextView>(R.id.mainOut).text =getString(R.string.been_together_year_month,years,months)
-                    else if (years == 1 && month == 0 && days > 1)
+                    else if (years == 1 && months == 0 && days > 1)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_year_days,years, days)
-                    else if (years == 1 && month == 0 && days == 1)
+                    else if (years == 1 && months == 0 && days == 1)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_year_day ,years, days)
-                    else if (years == 1 && month == 0 && days == 0)
+                    else if (years == 1 && months == 0 && days == 0)
                         findViewById<TextView>(R.id.mainOut).text = getString(R.string.been_together_year, years)
                 }
 
@@ -193,6 +220,8 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
                 }
 
+
+
         }
 
     }
@@ -200,7 +229,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     //Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        var inflater = menuInflater
+        val inflater = menuInflater
         inflater.inflate(R.menu.main_menu,menu)
         return true
     }
