@@ -50,10 +50,10 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         val saveYear = year
         val saveMonth = month +1
-        var saveDay = dayOfMonth
+        val saveDay = dayOfMonth
 
-        var sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
-        var editor = sharedPref.edit()
+        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
         editor.putInt("year", saveYear)
         editor.putInt("month", saveMonth)
@@ -65,7 +65,7 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
         loadData()
 
-        Thread.sleep(2000)
+        // Thread.sleep(2000)
 
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -73,18 +73,18 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     }
 
     private fun loadData(){
-        var sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
 
         if (sharedPref != null){
-            var year = sharedPref.getInt("year", 2020)
-            var month = sharedPref.getInt("month",10)
-            var date = sharedPref.getInt("day", 6)
+            val year = sharedPref.getInt("year", 2020)
+            val month = sharedPref.getInt("month",10)
+            val date = sharedPref.getInt("day", 6)
 
-            var dateString = "$date.$month.$year"
+            val dateString = "$date.$month.$year"
 
             findViewById<TextView>(R.id.testView).text = dateString
         }else{
-            Toast.makeText(this, "Used pref settings",Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Used pref settings",Toast.LENGTH_SHORT).show()
         }
 
 
