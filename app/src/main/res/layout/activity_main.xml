@@ -79,6 +79,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/mainOut"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header" />
 
@@ -98,20 +99,21 @@
         android:id="@+id/mainOut"
         android:layout_width="412dp"
         android:layout_height="30dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/magnolia_script"
         android:gravity="center"
         android:text="You're alone"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/togetherSince"
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/togetherSince" />
 
     <TextView
         android:id="@+id/details"
         android:layout_width="414dp"
         android:layout_height="25dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="@font/magnolia_script"
         android:gravity="center"
         android:text="@string/details"
