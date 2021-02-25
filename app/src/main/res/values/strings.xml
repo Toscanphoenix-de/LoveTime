@@ -58,5 +58,19 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="image">Image</string>
+    <string name="select_image">Select Image</string>
+    <string name="change_date">Change Date</string>
+    <string name="your_dates">Your Dates</string>
+    <string name="names">Names</string>
+    <string name="set_names">Set Names</string>
+    <string name="notifications">Notifications</string>
+    <string name="disable_notifications">Disable Notifications</string>
+    <string name="reset_picture">Reset Picture</string>
+    <string name="lovetime">LoveTime</string>
+    <string name="developer">Developer</string>
+    <string name="toscanphoenix_aka_fenni">Toscanphoenix aka. Fenni</string>
+    <string name="design">Design</string>
+    <string name="andreas_rau">Andreas Rau</string>
 
 </resources>
