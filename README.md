@@ -16,3 +16,5 @@ Track the time since you meet your special Person.
 - more trackable dates eg. engagement, marriage, divorce
 - amount of time in weeks or recalc in days since
 - Notifications 
+- -Save Image for restart 
+- 
