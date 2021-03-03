@@ -2,20 +2,29 @@ package com.fenni.kotlintry
 
 import android.Manifest
 import android.R.attr
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
+import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.*
 
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
+
+    var year = 0;
+    var month = 0
+    var day = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +32,48 @@ class SettingsActivity : AppCompatActivity() {
 
         pickImage()
         goHome()
+        updateDate()
     }
+
+
+
+    private fun updateDate() {
+        findViewById<Button>(R.id.btn_change_date).setOnClickListener{
+            getDateCalender()
+            DatePickerDialog(this,this,year,month,day).show()
+        }
+    }
+
+    private fun getDateCalender() {
+        val calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    }
+
+    @SuppressLint("ShowToast")
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        val saveYear = year
+        val saveMonth = month + 1
+        val saveDay = dayOfMonth
+
+        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        editor.putInt("year", saveYear)
+        editor.putInt("month", saveMonth)
+        editor.putInt("day", saveDay)
+
+        editor.apply()
+
+        Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+
+
+
 
     //Home Button
     private fun goHome() {
@@ -112,3 +162,5 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 }
+
+

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         dateCheckAndSet()
         pickImage()
-        pictureCheckAndSet()
+       // pictureCheckAndSet()
     }
 
     // image Picker
@@ -132,6 +132,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private val IMAGE_PICK_CODE = 100
         private val PERMISSION_CODE = 100
+
+
 
     }
 

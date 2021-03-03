@@ -93,11 +93,13 @@
                 android:textSize="20sp" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:layout_width="match_parent"
+                android:layout_width="369dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
                 android:text="@string/disable_notifications"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                tools:layout_marginRight="10dp" />
 
 
         </LinearLayout>
@@ -113,7 +115,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-        android:focusable="true" />
+        android:focusable="true"
+        android:contentDescription="close" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
