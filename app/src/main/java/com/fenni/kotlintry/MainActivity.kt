@@ -1,9 +1,7 @@
 package com.fenni.kotlintry
 
 import android.Manifest
-import android.app.ActionBar
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,22 +9,16 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
-import java.lang.NullPointerException
 import java.time.LocalDate
 import java.time.Period
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    object Image{
-
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +89,10 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+            findViewById<ImageView>(R.id.photo).setImageURI(data?.data)
+        }
+        /*
         val sharedPreferences = this.getSharedPreferences("images", Context.MODE_PRIVATE)
         val datapref = sharedPreferences.getString("image", null)
         if (datapref != null){
@@ -104,16 +100,14 @@ class MainActivity : AppCompatActivity() {
                 val uri = Uri.parse(datapref)
                 findViewById<ImageView>(R.id.photo).setImageURI(uri)
             }
-        }else{
-            if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-                val imageData = data?.data
-                findViewById<ImageView>(R.id.photo).setImageURI(imageData)
-                val editor = sharedPreferences.edit()
-                editor.putString("image",imageData.toString())
-                editor.apply()
-                finish()
-            }
-              }
+        }else if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            val imageData = data?.data
+            findViewById<ImageView>(R.id.photo).setImageURI(imageData)
+            val editor = sharedPreferences.edit()
+            editor.putString("image",imageData.toString())
+            editor.apply()
+            finish()
+        }*/
     }
 
     private fun pictureCheckAndSet(){
