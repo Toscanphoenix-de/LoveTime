@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
+import com.fenni.kotlintry.MainActivity.Companion.NAME
 import com.fenni.kotlintry.MainActivity.Companion.NAMES
 import com.fenni.kotlintry.MainActivity.Companion.YEAR
 import com.google.android.gms.dynamic.IFragmentWrapper
@@ -64,9 +65,9 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
         val sharedPreferences = this.getSharedPreferences(NAMES, Context.MODE_PRIVATE)
 
         val name =
-            sharedPreferences.getString("name", "Here could be your name. Change it in settings")
+            sharedPreferences.getString(NAME, "Here could be your name. Change it in settings")
 
-        findViewById<TextView>(R.id.dateBanner).text = name
+        findViewById<TextView>(R.id.bannerName).text = name
 
     }
 

@@ -195,6 +195,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         const val YEAR = "year"
         const val MONTH = "month"
         const val DAY= "day"
+
+        const val NAME = "name"
     }
 
 
