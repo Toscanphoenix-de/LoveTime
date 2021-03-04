@@ -10,7 +10,10 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
+import com.fenni.kotlintry.MainActivity.Companion.DAY
 import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
+import com.fenni.kotlintry.MainActivity.Companion.MONTH
+import com.fenni.kotlintry.MainActivity.Companion.YEAR
 import java.util.*
 
 class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
@@ -50,9 +53,9 @@ class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
-        editor.putInt("year", saveYear)
-        editor.putInt("month", saveMonth)
-        editor.putInt("day", dayOfMonth)
+        editor.putInt(YEAR, saveYear)
+        editor.putInt(MONTH, saveMonth)
+        editor.putInt(DAY, dayOfMonth)
 
         editor.apply()
 

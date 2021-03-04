@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
 import com.fenni.kotlintry.MainActivity.Companion.NAMES
+import com.fenni.kotlintry.MainActivity.Companion.YEAR
 import com.google.android.gms.dynamic.IFragmentWrapper
 import java.time.LocalDate
 import java.time.Period
@@ -39,7 +40,7 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
 
         val sharedPreferences = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
 
-        if (sharedPreferences.getInt("year",-1)==-1){
+        if (sharedPreferences.getInt(YEAR,-1)==-1){
             val intent = Intent(this, FirstEngagementActivity::class.java)
             startActivity(intent)
             finish()

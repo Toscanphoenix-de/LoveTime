@@ -184,11 +184,17 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     companion object {
         private val IMAGE_PICK_CODE = 100
         private val PERMISSION_CODE = 100
+
         const val MIN_DISTANCE = 150
+
         const val MEET_DATE: String = "meetDate"
         const val ENGAGEMENT_DATE:String = "engagementDate"
         const val MARRIED_DATE: String = "marriedDate"
         const val NAMES:String = "names"
+
+        const val YEAR = "year"
+        const val MONTH = "month"
+        const val DAY= "day"
     }
 
 
