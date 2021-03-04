@@ -3,6 +3,7 @@
     package="com.fenni.kotlintry">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinTry">
-        <activity android:name=".FirstEngagementActivity"></activity>
+        <activity android:name=".FirstMarriedActivity"></activity>
+        <activity android:name=".FirstEngagementActivity" />
         <activity android:name=".MainMarriedActivity" />
         <activity android:name=".MainEngagedActivity" />
         <activity android:name=".HelpActivity" />
