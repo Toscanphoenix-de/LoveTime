@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.DatePicker
@@ -13,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import com.fenni.kotlintry.MainActivity.Companion.MEET_DATE
 import java.util.*
 
 
@@ -26,8 +26,7 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_start)
-
-        loadData()
+        0
         pickDate()
     }
 
@@ -50,20 +49,18 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         val saveYear = year
         val saveMonth = month +1
-        val saveDay = dayOfMonth
 
-        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
         editor.putInt("year", saveYear)
         editor.putInt("month", saveMonth)
-        editor.putInt("day", saveDay)
+        editor.putInt("day", dayOfMonth)
 
         editor.apply()
 
         Toast.makeText(this,"Date successfully stored", Toast.LENGTH_SHORT).show()
 
-        loadData()
 
         // Thread.sleep(2000)
 
@@ -72,23 +69,7 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         finish()
     }
 
-    private fun loadData(){
-        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
 
-        if (sharedPref != null){
-            val year = sharedPref.getInt("year", 2020)
-            val month = sharedPref.getInt("month",10)
-            val date = sharedPref.getInt("day", 6)
-
-            val dateString = "$date.$month.$year"
-
-            findViewById<TextView>(R.id.testView).text = dateString
-        }else{
-            Toast.makeText(this, "Used pref settings",Toast.LENGTH_SHORT).show()
-        }
-
-
-    }
 
 
 }
