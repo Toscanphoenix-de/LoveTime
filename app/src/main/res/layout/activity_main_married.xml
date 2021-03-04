@@ -13,7 +13,7 @@
         />
 
     <TextView
-        android:id="@+id/amount_days"
+        android:id="@+id/amount_days_married"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -24,7 +24,7 @@
         android:textColor="@color/firebrick"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/days"
-        app:layout_constraintTop_toBottomOf="@+id/amount_month" />
+        app:layout_constraintTop_toBottomOf="@+id/amount_month_married" />
 
     <TextView
         android:id="@+id/days"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/months" />
 
     <TextView
-        android:id="@+id/amount_month"
+        android:id="@+id/amount_month_married"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="132dp"
@@ -52,7 +52,7 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/months"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amount_years" />
+        app:layout_constraintTop_toBottomOf="@+id/amount_years_married" />
 
     <TextView
         android:id="@+id/months"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/years" />
 
     <TextView
-        android:id="@+id/togetherSince"
+        android:id="@+id/marriedSince"
         android:layout_width="410dp"
         android:layout_height="32dp"
         android:layout_marginTop="10dp"
@@ -77,7 +77,7 @@
         android:text="@string/title_married"
         android:textColor="@color/firebrick"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/mainOutEngagement"
+        app:layout_constraintBottom_toTopOf="@+id/mainOutMarried"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,10 +93,10 @@
         app:layout_constraintHorizontal_bias="0.54"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainOutEngagement" />
+        app:layout_constraintTop_toBottomOf="@+id/mainOutMarried" />
 
     <TextView
-        android:id="@+id/mainOutEngagement"
+        android:id="@+id/mainOutMarried"
         android:layout_width="412dp"
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/togetherSince" />
+        app:layout_constraintTop_toBottomOf="@+id/marriedSince" />
 
     <TextView
         android:id="@+id/details"
@@ -142,7 +142,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/amount_years"
+        android:id="@+id/amount_years_married"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="132dp"
@@ -171,7 +171,7 @@
         app:layout_constraintTop_toBottomOf="@+id/details" />
 
     <TextView
-        android:id="@+id/dateBanner"
+        android:id="@+id/dateBannerMarried"
         android:layout_width="411dp"
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
@@ -181,10 +181,10 @@
         android:textColor="@color/firebrick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainOutEngagement" />
+        app:layout_constraintTop_toBottomOf="@+id/mainOutMarried" />
 
     <TextView
-        android:id="@+id/dateBanner2"
+        android:id="@+id/bannerNameMarried"
         android:layout_width="411dp"
         android:layout_height="22dp"
         android:layout_marginTop="372dp"
@@ -195,17 +195,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainOutEngagement" />
+        app:layout_constraintTop_toBottomOf="@+id/mainOutMarried" />
 
-    <Button
-        android:id="@+id/img_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="16dp"
-        android:text="Pick Image"
 
-        app:layout_constraintEnd_toEndOf="@+id/photo"
-        app:layout_constraintTop_toBottomOf="@+id/dateBanner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
