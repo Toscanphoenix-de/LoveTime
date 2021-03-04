@@ -73,6 +73,16 @@
                 android:text="@string/change_engagement_date"
                 tools:ignore="RtlHardcoded" />
 
+            <Button
+                android:id="@+id/btn_change_date_marriage"
+                android:layout_width="416dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="11dp"
+                android:gravity="center_vertical"
+                android:text="@string/change_marriage_date"
+                tools:ignore="RtlHardcoded" />
+
+
 
             <TextView
                 android:id="@+id/Names"

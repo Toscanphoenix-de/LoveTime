@@ -12,10 +12,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.fenni.kotlintry.MainActivity.Companion.DAY
 import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
 import com.fenni.kotlintry.MainActivity.Companion.MARRIED_DATE
 import com.fenni.kotlintry.MainActivity.Companion.MEET_DATE
+import com.fenni.kotlintry.MainActivity.Companion.MONTH
 import com.fenni.kotlintry.MainActivity.Companion.NAMES
+import com.fenni.kotlintry.MainActivity.Companion.YEAR
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -28,6 +31,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
 
     private var dateTogether = false
     private var dateEngaged = false
+    private var dateMarried = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +41,17 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         goHome()
         updateDate()
         updateEngagementDate()
+        updateMarriageDate()
         updateNames()
         resetApp()
+    }
+
+    private fun updateMarriageDate() {
+        findViewById<Button>(R.id.btn_change_date_marriage).setOnClickListener {
+            getDateCalender()
+            dateMarried = true
+            DatePickerDialog(this,this,year,month,day).show()
+        }
     }
 
     private fun resetApp() {
@@ -143,16 +156,15 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         val saveYear = year
         val saveMonth = month + 1
-        val saveDay = dayOfMonth
 
         when {
             dateTogether -> {
                 dateTogether = false
-                val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+                val sharedPref = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
-                editor.putInt("year", saveYear)
-                editor.putInt("month", saveMonth)
-                editor.putInt("day", saveDay)
+                editor.putInt(YEAR, saveYear)
+                editor.putInt(MONTH, saveMonth)
+                editor.putInt(DAY, dayOfMonth)
 
                 editor.apply()
 
@@ -166,9 +178,9 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
                 dateEngaged = false
                 val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
-                editor.putInt("year", saveYear)
-                editor.putInt("month", saveMonth)
-                editor.putInt("day", saveDay)
+                editor.putInt(YEAR, saveYear)
+                editor.putInt(MONTH, saveMonth)
+                editor.putInt(DAY, dayOfMonth)
 
                 editor.apply()
 
@@ -178,18 +190,24 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
                 startActivity(intent)
                 finish()
             }
-            else -> {
-                val sharedPref = this.getSharedPreferences("marriageDate", Context.MODE_PRIVATE)
+            dateMarried -> {
+                val sharedPref = this.getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
-                editor.putInt("year", saveYear)
-                editor.putInt("month", saveMonth)
-                editor.putInt("day", saveDay)
+                editor.putInt(YEAR, saveYear)
+                editor.putInt(MONTH, saveMonth)
+                editor.putInt(DAY, dayOfMonth)
 
                 editor.apply()
 
                 Toast.makeText(this, "Marriage successfully changed", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, MainMarriedActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            else -> {
+                Toast.makeText(this, "Oops", Toast.LENGTH_SHORT)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
