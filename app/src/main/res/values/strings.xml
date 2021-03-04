@@ -82,5 +82,7 @@
     <string name="title_married">You have been married since</string>
     <string name="change_engagement_date">Change engagement Date</string>
     <string name="since_when_are_you_engaged">Since when are you engaged</string>
+    <string name="since_when_are_you_married">Since when are you married?</string>
+    <string name="change_marriage_date">Change Marriage Date</string>
 
 </resources>
