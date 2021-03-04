@@ -24,7 +24,6 @@ class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_engagement)
 
-        loadData()
         pickDate()
     }
 
@@ -59,31 +58,11 @@ class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
         Toast.makeText(this,"Date successfully stored", Toast.LENGTH_SHORT).show()
 
-        loadData()
-
         // Thread.sleep(2000)
 
         val intent = Intent(this, FirstEngagementActivity::class.java)
         startActivity(intent)
         finish()
-    }
-
-    private fun loadData(){
-        val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
-
-        if (sharedPref != null){
-            val year = sharedPref.getInt("year", 2020)
-            val month = sharedPref.getInt("month",10)
-            val date = sharedPref.getInt("day", 6)
-
-            val dateString = "$date.$month.$year"
-
-            findViewById<TextView>(R.id.testView).text = dateString
-        }else{
-            Toast.makeText(this, "Used pref settings", Toast.LENGTH_SHORT).show()
-        }
-
-
     }
 
 
