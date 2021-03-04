@@ -13,7 +13,7 @@
          />
 
     <TextView
-        android:id="@+id/amount_days"
+        android:id="@+id/amount_days_married"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -24,7 +24,7 @@
         android:textColor="@color/firebrick"
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/days"
-        app:layout_constraintTop_toBottomOf="@+id/amount_month" />
+        app:layout_constraintTop_toBottomOf="@+id/amount_month_married" />
 
     <TextView
         android:id="@+id/days"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/months" />
 
     <TextView
-        android:id="@+id/amount_month"
+        android:id="@+id/amount_month_married"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="132dp"
@@ -52,7 +52,7 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toStartOf="@+id/months"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amount_years" />
+        app:layout_constraintTop_toBottomOf="@+id/amount_years_married" />
 
     <TextView
         android:id="@+id/months"
@@ -88,7 +88,7 @@
         android:layout_width="411dp"
         android:layout_height="386dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/testbild"
+        android:src="@drawable/together"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.54"
 
@@ -142,7 +142,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/amount_years"
+        android:id="@+id/amount_years_married"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="132dp"
@@ -171,7 +171,7 @@
         app:layout_constraintTop_toBottomOf="@+id/details" />
 
     <TextView
-        android:id="@+id/dateBanner"
+        android:id="@+id/dateBannerMarried"
         android:layout_width="411dp"
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
@@ -206,6 +206,6 @@
         android:text="Pick Image"
 
         app:layout_constraintEnd_toEndOf="@+id/photo"
-        app:layout_constraintTop_toBottomOf="@+id/dateBanner" />
+        app:layout_constraintTop_toBottomOf="@+id/dateBannerMarried" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

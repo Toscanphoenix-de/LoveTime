@@ -18,7 +18,7 @@ class DateCalculation : AppCompatActivity() {
         val savedMonth = sharedPref.getInt("month", 0)
         val savedDay = sharedPref.getInt("day", 0)
 
-        findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"
+        findViewById<TextView>(R.id.dateBannerMarried).text = "$savedDay.$savedMonth.$savedYear"
 
         val dateToday = LocalDate.now()
         when {
@@ -55,9 +55,9 @@ class DateCalculation : AppCompatActivity() {
             println(months)
             println(years)*/
 
-            findViewById<TextView>(R.id.amount_days).text = days.toString()
-            findViewById<TextView>(R.id.amount_month).text = months.toString()
-            findViewById<TextView>(R.id.amount_years).text = years.toString()
+            findViewById<TextView>(R.id.amount_days_married).text = days.toString()
+            findViewById<TextView>(R.id.amount_month_married).text = months.toString()
+            findViewById<TextView>(R.id.amount_years_married).text = years.toString()
 
 
             //output

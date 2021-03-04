@@ -63,7 +63,7 @@ class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
         // Thread.sleep(2000)
 
-        val intent = Intent(this, FirstEngagementActivity::class.java)
+        val intent = Intent(this, MainEngagedActivity::class.java)
         startActivity(intent)
         finish()
     }

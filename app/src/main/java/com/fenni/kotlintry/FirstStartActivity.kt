@@ -26,7 +26,7 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_start)
-        0
+
         pickDate()
     }
 

@@ -18,7 +18,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.fenni.kotlintry.MainActivity.Companion.DAY
 import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
+import com.fenni.kotlintry.MainActivity.Companion.MONTH
 import com.fenni.kotlintry.MainActivity.Companion.NAME
 import com.fenni.kotlintry.MainActivity.Companion.NAMES
 import com.fenni.kotlintry.MainActivity.Companion.YEAR
@@ -104,11 +106,11 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
     private fun dateCheckAndSet() {
         val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
 
-        val savedYear = sharedPref.getInt("year", 0)
-        val savedMonth = sharedPref.getInt("month", 0)
-        val savedDay = sharedPref.getInt("day", 0)
+        val savedYear = sharedPref.getInt(YEAR, 0)
+        val savedMonth = sharedPref.getInt(MONTH, 0)
+        val savedDay = sharedPref.getInt(DAY, 0)
 
-        if (sharedPref.getInt("year",-1) == -1){
+        if (sharedPref.getInt(YEAR,-1) == -1){
             findViewById<TextView>(R.id.dateBannerEngaged).text= "Oh-Oh Something went wrong"
         }else
         findViewById<TextView>(R.id.dateBannerEngaged).text = "$savedDay.$savedMonth.$savedYear"
@@ -164,7 +166,7 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
             if (years > 0) {
 
                 if (years > 1 && months > 1)
-                    findViewById<TextView>(R.id.mainOut).text =
+                    findViewById<TextView>(R.id.mainOutEngagement).text =
                         getString(R.string.been_together_years_months, years, months)
                 else if (years >= 1 && months == 1)
                     findViewById<TextView>(R.id.mainOutEngagement).text =
