@@ -18,6 +18,8 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
+import com.fenni.kotlintry.MainActivity.Companion.NAMES
 import com.google.android.gms.dynamic.IFragmentWrapper
 import java.time.LocalDate
 import java.time.Period
@@ -35,10 +37,17 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val sharedPreferences = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
+
+        if (sharedPreferences.getInt("year",-1)==-1){
+            val intent = Intent(this, FirstEngagementActivity::class.java)
+            startActivity(intent)
+            finish()
+        }else {
             setContentView(R.layout.activity_main_engaged)
             val toolbar: Toolbar? = findViewById(R.id.header)
             setSupportActionBar(toolbar)
-
+        }
 
         dateCheckAndSet()
         namesCheckAndSet()
@@ -51,7 +60,7 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
 
     //----------------------------------------------------------------------------------------------Name
     private fun namesCheckAndSet() {
-        val sharedPreferences = this.getSharedPreferences("names", Context.MODE_PRIVATE)
+        val sharedPreferences = this.getSharedPreferences(NAMES, Context.MODE_PRIVATE)
 
         val name =
             sharedPreferences.getString("name", "Here could be your name. Change it in settings")
@@ -91,13 +100,15 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
     //----------------------------------------------------------------------------------------------Date
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSet() {
-        val sharedPref = this.getSharedPreferences("engagementDate", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
 
-        val savedYear = sharedPref.getInt("year", 2021)
-        val savedMonth = sharedPref.getInt("month", 3)
-        val savedDay = sharedPref.getInt("day", 6)
+        val savedYear = sharedPref.getInt("year", 0)
+        val savedMonth = sharedPref.getInt("month", 0)
+        val savedDay = sharedPref.getInt("day", 0)
 
-
+        if (sharedPref.getInt("year",-1) == -1){
+            findViewById<TextView>(R.id.dateBannerEngaged).text= "Oh-Oh Something went wrong"
+        }else
         findViewById<TextView>(R.id.dateBannerEngaged).text = "$savedDay.$savedMonth.$savedYear"
 
 

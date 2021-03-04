@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
 
 
         if (sharedPreferences.getInt("year", -1) == -1) {
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
     private fun namesCheckAndSet() {
-        val sharedPreferences = this.getSharedPreferences("names", Context.MODE_PRIVATE)
+        val sharedPreferences = this.getSharedPreferences(NAMES, Context.MODE_PRIVATE)
 
         val name =
             sharedPreferences.getString("name", "Here could be your name. Change it in settings")
@@ -185,14 +185,17 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         private val IMAGE_PICK_CODE = 100
         private val PERMISSION_CODE = 100
         const val MIN_DISTANCE = 150
-
+        const val MEET_DATE: String = "meetDate"
+        const val ENGAGEMENT_DATE:String = "engagementDate"
+        const val MARRIED_DATE: String = "marriedDate"
+        const val NAMES:String = "names"
     }
 
 
     //-------------------------------------------------------------------------------------------------Date
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSet() {
-        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
 
         val savedYear = sharedPref.getInt("year", 0)
         val savedMonth = sharedPref.getInt("month", 0)
