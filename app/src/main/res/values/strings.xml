@@ -72,5 +72,15 @@
     <string name="toscanphoenix_aka_fenni">Toscanphoenix aka. Fenni</string>
     <string name="design">Design</string>
     <string name="andreas_rau">Andreas Rau</string>
+    <string name="donate">Donate</string>
+
+
+    <!-- Engaged Page-->
+    <string name="title_engaged">You have been engaged since</string>
+
+    <!-- Married Page-->
+    <string name="title_married">You have been married since</string>
+    <string name="change_engagement_date">Change engagement Date</string>
+    <string name="since_when_are_you_engaged">Since when are you engaged</string>
 
 </resources>
