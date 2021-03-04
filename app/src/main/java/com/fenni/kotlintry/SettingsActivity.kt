@@ -60,15 +60,15 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         editorMain.clear()
         editorMain.apply()
 
-        val sharedPreferencesEngagement = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
+       /* val sharedPreferencesEngagement = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
         val editorEngagement = sharedPreferencesEngagement.edit()
         editorEngagement.clear()
-        editorEngagement.apply()
+        editorEngagement.apply()*/
 
-        val sharedPreferencesMarried = getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
+        /*val sharedPreferencesMarried = getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
         val editorMarried = sharedPreferencesMarried.edit()
         editorMarried.clear()
-        editorMarried.apply()
+        editorMarried.apply()*/
 
         val sharedPreferencesNames = getSharedPreferences(NAMES, Context.MODE_PRIVATE)
         val editorNames = sharedPreferencesNames.edit()
@@ -82,6 +82,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     private fun updateEngagementDate() {
         findViewById<Button>(R.id.btn_change_date_engagement).setOnClickListener{
             getDateCalender()
+            dateEngaged = true
             DatePickerDialog(this,this,year,month,day).show()
         }
     }
@@ -163,7 +164,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
             }
             dateEngaged -> {
                 dateEngaged = false
-                val sharedPref = this.getSharedPreferences("engagementDate", Context.MODE_PRIVATE)
+                val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
                 editor.putInt("year", saveYear)
                 editor.putInt("month", saveMonth)
@@ -186,7 +187,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
 
                 editor.apply()
 
-                Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Marriage successfully changed", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, MainMarriedActivity::class.java)
                 startActivity(intent)
