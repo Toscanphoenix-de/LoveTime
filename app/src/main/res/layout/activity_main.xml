@@ -183,6 +183,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainOut" />
 
+    <TextView
+        android:id="@+id/dateBanner2"
+        android:layout_width="411dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="372dp"
+        android:background="#99000000"
+        android:fontFamily="@font/magnolia_script"
+        android:gravity="center"
+        android:textColor="@color/firebrick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainOut" />
+
     <Button
         android:id="@+id/img_picker"
         android:layout_width="wrap_content"

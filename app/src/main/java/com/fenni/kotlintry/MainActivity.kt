@@ -1,5 +1,10 @@
 package com.fenni.kotlintry
 
+/**
+ * @author : Toscanhpoenix
+ * @version: 3.0
+ * @since: 2021-2-20*/
+
 import android.Manifest
 import android.app.Activity
 import android.content.Context
@@ -9,15 +14,23 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import java.time.LocalDate
 import java.time.Period
+import kotlin.math.abs
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
+
+    lateinit var gestureDetector: GestureDetector
+    var x2 = 0.0f
+    var x1 = 0.0f
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -25,8 +38,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("meetDate", Context.MODE_PRIVATE)
-
-
 
 
         if (sharedPreferences.getInt("year", -1) == -1) {
@@ -42,7 +53,55 @@ class MainActivity : AppCompatActivity() {
 
         dateCheckAndSet()
         pickImage()
-       // pictureCheckAndSet()
+        namesCheckAndSet()
+
+
+        gestureDetector = GestureDetector(this, this)
+
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        gestureDetector.onTouchEvent(event)
+        when (event?.action) {
+
+            0 -> {
+                x1 = event.x
+
+            }
+            1 -> {
+                x2 = event.x
+
+
+
+                val valueX = x2 - x1
+
+                if (abs(valueX) > MIN_DISTANCE){
+                    if(x2>x1){
+                        Toast.makeText(this,"Nothing here ", Toast.LENGTH_SHORT).show()
+                    }else{
+                        val intent = Intent(this, MainEngagedActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+                    }
+                }
+            }
+
+        }
+
+        return super.onTouchEvent(event)
+    }
+
+
+    private fun namesCheckAndSet() {
+        val sharedPreferences = this.getSharedPreferences("names", Context.MODE_PRIVATE)
+
+        val name =
+            sharedPreferences.getString("name", "Here could be your name. Change it in settings")
+
+        findViewById<TextView>(R.id.dateBanner2).text = name
+
     }
 
     // image Picker
@@ -89,7 +148,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             findViewById<ImageView>(R.id.photo).setImageURI(data?.data)
         }
         /*
@@ -110,11 +169,11 @@ class MainActivity : AppCompatActivity() {
         }*/
     }
 
-    private fun pictureCheckAndSet(){
+    private fun pictureCheckAndSet() {
         val sharedPreferences = this.getSharedPreferences("images", Context.MODE_PRIVATE)
         val dataPref = sharedPreferences.getString("image", null)
         TODO("Adding Permission to read and get")
-        if (dataPref != null){
+        if (dataPref != null) {
             val uri = Uri.parse(dataPref)
             findViewById<ImageView>(R.id.photo).setImageURI(uri)
         }
@@ -122,18 +181,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     companion object {
         private val IMAGE_PICK_CODE = 100
         private val PERMISSION_CODE = 100
-
-
+        const val MIN_DISTANCE = 150
 
     }
 
 
-
-
+    //-------------------------------------------------------------------------------------------------Date
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSet() {
         val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
@@ -267,7 +323,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
+        when (item.itemId) {
             R.id.settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
@@ -278,21 +334,64 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-           // R.id.help -> xml*/
+            R.id.help -> {
+                val intent = Intent(this, HelpActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
-}
+
 
 //Calculator
 @RequiresApi(Build.VERSION_CODES.O)
-private fun dateCalc(string_ourDate: String, date2: LocalDate): Period? {
+ fun dateCalc(string_ourDate: String, date2: LocalDate): Period? {
 
     println(string_ourDate)
     val date = LocalDate.parse(string_ourDate)
 
 
     return Period.between(date, date2)
+}
+
+
+
+
+
+override fun onDown(e: MotionEvent?): Boolean {
+    return false
+}
+
+override fun onShowPress(e: MotionEvent?) {
+    // TODO("Not yet implemented")
+}
+
+override fun onSingleTapUp(e: MotionEvent?): Boolean {
+    return false
+}
+
+override fun onScroll(
+    e1: MotionEvent?,
+    e2: MotionEvent?,
+    distanceX: Float,
+    distanceY: Float
+): Boolean {
+    return false
+}
+
+override fun onLongPress(e: MotionEvent?) {
+    // TODO("Not yet implemented")
+}
+
+override fun onFling(
+    e1: MotionEvent?,
+    e2: MotionEvent?,
+    velocityX: Float,
+    velocityY: Float
+): Boolean {
+    return false
+}
 }
 
 
