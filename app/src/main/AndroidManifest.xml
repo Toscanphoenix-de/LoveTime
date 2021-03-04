@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinTry">
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".FirstEngagementActivity"></activity>
+        <activity android:name=".MainMarriedActivity" />
+        <activity android:name=".MainEngagedActivity" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".AboutActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
