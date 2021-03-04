@@ -4,16 +4,16 @@ import android.Manifest
 import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.DatePicker
-import android.widget.TextView
-import android.widget.Toast
+import android.util.Log
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -26,6 +26,9 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     var month = 0
     var day = 0
 
+    var date_together = false
+    var date_engaged = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
@@ -33,14 +36,58 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         pickImage()
         goHome()
         updateDate()
+        updateEngagementDate()
+        updateNames()
     }
 
+    private fun updateEngagementDate() {
+        findViewById<Button>(R.id.btn_change_date_engagement).setOnClickListener{
+            getDateCalender()
+            DatePickerDialog(this,this,year,month,day).show()
+        }
+    }
+
+    private fun updateNames() {
+        findViewById<Button>(R.id.edit_Names).setOnClickListener{
+
+            val sharedPreferences = this. getSharedPreferences("names", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+
+            val builder = AlertDialog.Builder(this)
+            val inflater = layoutInflater
+            val dialogLayout = inflater.inflate(R.layout.edit_text_layout, null)
+            val editText = dialogLayout.findViewById<EditText>(R.id.et_editText)
+
+            with(builder){
+                setTitle("Enter your Names")
+                setPositiveButton("OK"){
+                        _, _ ->
+                    val names = editText.text.toString()
+                    editor.putString("name", names)
+                    editor.apply()
+                    Toast.makeText(this@SettingsActivity,"Names successfully applied", Toast.LENGTH_SHORT).show()
+                }
+                setNegativeButton("Cancel"){
+                        _, _ ->
+                    Log.d("Main","Cancelled ")
+                }
+                setView(dialogLayout)
+                show()
+
+
+            }
+
+
+        }
+    }
 
 
     private fun updateDate() {
         findViewById<Button>(R.id.btn_change_date).setOnClickListener{
             getDateCalender()
+            date_together = true
             DatePickerDialog(this,this,year,month,day).show()
+
         }
     }
 
@@ -58,18 +105,59 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         val saveMonth = month + 1
         val saveDay = dayOfMonth
 
-        val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
+        when {
+            date_together -> {
+                date_together = false
+                val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putInt("year", saveYear)
+                editor.putInt("month", saveMonth)
+                editor.putInt("day", saveDay)
 
-        editor.putInt("year", saveYear)
-        editor.putInt("month", saveMonth)
-        editor.putInt("day", saveDay)
+                editor.apply()
 
-        editor.apply()
+                Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
-        finish()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            date_engaged -> {
+                date_engaged = false
+                val sharedPref = this.getSharedPreferences("engagementDate", Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putInt("year", saveYear)
+                editor.putInt("month", saveMonth)
+                editor.putInt("day", saveDay)
+
+                editor.apply()
+
+                Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MainEngagedActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            else -> {
+                val sharedPref = this.getSharedPreferences("marriageDate", Context.MODE_PRIVATE)
+                val editor = sharedPref.edit()
+                editor.putInt("year", saveYear)
+                editor.putInt("month", saveMonth)
+                editor.putInt("day", saveDay)
+
+                editor.apply()
+
+                Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MainMarriedActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
     }
+
+
 
 
 
@@ -87,7 +175,6 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     // image Picker
     private fun pickImage() {
         findViewById<Button>(R.id.btn_select_image).setOnClickListener {
-            startActivityForResult(intent, 6)
             //check runtime permission
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 //denied
@@ -128,7 +215,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            if (data != null) {
+            /* if (data != null) {
 
                 // This is the key line item, URI specifies the name of the data
                  val mImageUri = data.data
@@ -149,7 +236,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
                 val editor = preferences.edit()
                 editor.putString("image", java.lang.String.valueOf(mImageUri))
                 editor.apply()
-            }
+            }*/
         }
     }
 

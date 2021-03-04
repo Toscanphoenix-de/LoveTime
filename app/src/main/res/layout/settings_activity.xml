@@ -64,6 +64,15 @@
                 android:text="@string/change_date"
                 tools:ignore="RtlHardcoded" />
 
+            <Button
+                android:id="@+id/btn_change_date_engagement"
+                android:layout_width="416dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="11dp"
+                android:gravity="center_vertical"
+                android:text="@string/change_engagement_date"
+                tools:ignore="RtlHardcoded" />
+
 
             <TextView
                 android:id="@+id/Names"
@@ -76,11 +85,12 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/edit_Names"
                 android:layout_width="416dp"
                 android:layout_height="62dp"
                 android:gravity="center_vertical"
                 android:text="@string/set_names" />
+
 
             <TextView
                 android:id="@+id/Notifications"
