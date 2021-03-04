@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
+import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
 import java.util.*
 
 class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
@@ -47,7 +48,7 @@ class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
         val saveYear = year
         val saveMonth = month +1
 
-        val sharedPref = this.getSharedPreferences("engagementDate", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
         editor.putInt("year", saveYear)
@@ -62,13 +63,13 @@ class FirstEngagementActivity : AppCompatActivity(), DatePickerDialog.OnDateSetL
 
         // Thread.sleep(2000)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, FirstEngagementActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     private fun loadData(){
-        val sharedPref = this.getSharedPreferences("engagementDate", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
 
         if (sharedPref != null){
             val year = sharedPref.getInt("year", 2020)
