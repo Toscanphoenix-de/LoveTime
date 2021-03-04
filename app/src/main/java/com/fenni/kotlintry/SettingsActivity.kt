@@ -1,21 +1,21 @@
 package com.fenni.kotlintry
 
 import android.Manifest
-import android.R.attr
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceManager
+import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
+import com.fenni.kotlintry.MainActivity.Companion.MARRIED_DATE
+import com.fenni.kotlintry.MainActivity.Companion.MEET_DATE
+import com.fenni.kotlintry.MainActivity.Companion.NAMES
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -26,8 +26,8 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     var month = 0
     var day = 0
 
-    var date_together = false
-    var date_engaged = false
+    private var dateTogether = false
+    private var dateEngaged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,46 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         updateDate()
         updateEngagementDate()
         updateNames()
+        resetApp()
     }
+
+    private fun resetApp() {
+        findViewById<Button>(R.id.btn_reset).setOnClickListener{
+
+            reset()
+
+            val intent = Intent(this, MainActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------Reset
+    private fun reset() {
+
+        val sharedPreferencesMain = getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
+        val editorMain = sharedPreferencesMain.edit()
+        editorMain.clear()
+        editorMain.apply()
+
+        val sharedPreferencesEngagement = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
+        val editorEngagement = sharedPreferencesEngagement.edit()
+        editorEngagement.clear()
+        editorEngagement.apply()
+
+        val sharedPreferencesMarried = getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
+        val editorMarried = sharedPreferencesMarried.edit()
+        editorMarried.clear()
+        editorMarried.apply()
+
+        val sharedPreferencesNames = getSharedPreferences(NAMES, Context.MODE_PRIVATE)
+        val editorNames = sharedPreferencesNames.edit()
+        editorNames.clear()
+        editorNames.apply()
+
+    }
+
+
 
     private fun updateEngagementDate() {
         findViewById<Button>(R.id.btn_change_date_engagement).setOnClickListener{
@@ -50,7 +89,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     private fun updateNames() {
         findViewById<Button>(R.id.edit_Names).setOnClickListener{
 
-            val sharedPreferences = this. getSharedPreferences("names", Context.MODE_PRIVATE)
+            val sharedPreferences = this. getSharedPreferences(NAMES, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
 
             val builder = AlertDialog.Builder(this)
@@ -85,7 +124,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     private fun updateDate() {
         findViewById<Button>(R.id.btn_change_date).setOnClickListener{
             getDateCalender()
-            date_together = true
+            dateTogether = true
             DatePickerDialog(this,this,year,month,day).show()
 
         }
@@ -106,8 +145,8 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         val saveDay = dayOfMonth
 
         when {
-            date_together -> {
-                date_together = false
+            dateTogether -> {
+                dateTogether = false
                 val sharedPref = this.getSharedPreferences("meetDate", Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
                 editor.putInt("year", saveYear)
@@ -122,8 +161,8 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
                 startActivity(intent)
                 finish()
             }
-            date_engaged -> {
-                date_engaged = false
+            dateEngaged -> {
+                dateEngaged = false
                 val sharedPref = this.getSharedPreferences("engagementDate", Context.MODE_PRIVATE)
                 val editor = sharedPref.edit()
                 editor.putInt("year", saveYear)

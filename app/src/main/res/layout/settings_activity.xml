@@ -111,6 +111,23 @@
                 android:textSize="17sp"
                 tools:layout_marginRight="10dp" />
 
+            <TextView
+                android:id="@+id/reset"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:fontFamily="@font/magnolia_script"
+                android:gravity="center"
+                android:text="Reset App"
+                android:textColor="@color/firebrick"
+                android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/btn_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Reset!!!"/>
+
 
         </LinearLayout>
     </ScrollView>
