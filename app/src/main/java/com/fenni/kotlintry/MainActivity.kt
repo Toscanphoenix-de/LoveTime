@@ -23,11 +23,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import java.time.LocalDate
 import java.time.Period
+import java.time.Year
+import java.util.*
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     lateinit var gestureDetector: GestureDetector
+    private val dateCalculation = DateCalculation(this)
     var x2 = 0.0f
     var x1 = 0.0f
 
@@ -37,10 +40,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
+        val sharedPreferences = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
 
 
-        if (sharedPreferences.getInt("year", -1) == -1) {
+        if (sharedPreferences.getInt(YEAR, -1) == -1) {
             val intent = Intent(this, FirstStartActivity::class.java)
             startActivity(intent)
             finish()
@@ -50,6 +53,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             setSupportActionBar(toolbar)
         }
 
+
+         //dateCalculation.dateCheckAndSet(this,MEET_DATE,1000212,1000319,1000011,1000144,1000358)
 
         dateCheckAndSet()
         pickImage()
@@ -73,8 +78,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             1 -> {
                 x2 = event.x
 
-
-
+                7
                 val valueX = x2 - x1
 
                 if (abs(valueX) > MIN_DISTANCE){
@@ -205,11 +209,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private fun dateCheckAndSet() {
         val sharedPref = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
 
-        val savedYear = sharedPref.getInt("year", 0)
-        val savedMonth = sharedPref.getInt("month", 0)
-        val savedDay = sharedPref.getInt("day", 0)
+        val savedYear = sharedPref.getInt(YEAR, 0)
+        val savedMonth = sharedPref.getInt(MONTH, 0)
+        val savedDay = sharedPref.getInt(DAY, 0)
 
-        findViewById<TextView>(R.id.dateBannerMarried).text = "$savedDay.$savedMonth.$savedYear"
+        findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"
 
         val dateToday = LocalDate.now()
         when {
@@ -246,9 +250,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             println(months)
             println(years)*/
 
-            findViewById<TextView>(R.id.amount_days_married).text = days.toString()
-            findViewById<TextView>(R.id.amount_month_married).text = months.toString()
-            findViewById<TextView>(R.id.amount_years_married).text = years.toString()
+            findViewById<TextView>(R.id.amount_days_together).text = days.toString()
+            findViewById<TextView>(R.id.amount_month_together).text = months.toString()
+            findViewById<TextView>(R.id.amount_years_together).text = years.toString()
 
 
             //output
