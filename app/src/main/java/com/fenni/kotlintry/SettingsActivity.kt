@@ -2,18 +2,22 @@ package com.fenni.kotlintry
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.DatePickerDialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.fenni.kotlintry.MainActivity.Companion.DAY
 import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
+import com.fenni.kotlintry.MainActivity.Companion.IMAGES
+import com.fenni.kotlintry.MainActivity.Companion.IMG_TOGETHER
 import com.fenni.kotlintry.MainActivity.Companion.MARRIED_DATE
 import com.fenni.kotlintry.MainActivity.Companion.MEET_DATE
 import com.fenni.kotlintry.MainActivity.Companion.MONTH
@@ -29,6 +33,9 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     var month = 0
     var day = 0
 
+    private val CHANNEL_ID = "fenni_danni"
+    private val notificationID = 610
+
     private var dateTogether = false
     private var dateEngaged = false
     private var dateMarried = false
@@ -37,6 +44,8 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
 
+        createNotificationChannel()
+        resetImage()
         pickImage()
         goHome()
         updateDate()
@@ -44,7 +53,44 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         updateMarriageDate()
         updateNames()
         resetApp()
+
     }
+
+    private fun resetImage() {
+        findViewById<Button>(R.id.btn_reset_image).setOnClickListener {
+            sendNotification()
+        }
+    }
+
+
+    private fun createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "LoveTime"
+            val descriptionTest = "LoveTime"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionTest
+            }
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
+
+    }
+
+    private fun sendNotification(){
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.heart_idea_icon)
+            .setContentTitle("Love Time")
+            .setContentText(" A special Day is today!!!")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationID, builder.build())
+        }
+    }
+
 
     private fun updateMarriageDate() {
         findViewById<Button>(R.id.btn_change_date_marriage).setOnClickListener {
@@ -54,6 +100,8 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         }
     }
 
+
+    //---------------------------------------------------------------------------------------------Reset
     private fun resetApp() {
         findViewById<Button>(R.id.btn_reset).setOnClickListener{
 
@@ -65,7 +113,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         }
     }
 
-    //---------------------------------------------------------------------------------------------Reset
+
     private fun reset() {
 
         val sharedPreferencesMain = getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
@@ -233,22 +281,19 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
     // image Picker
     private fun pickImage() {
         findViewById<Button>(R.id.btn_select_image).setOnClickListener {
-            //check runtime permission
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                //denied
                 val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 requestPermissions(permission, PERMISSION_CODE)
             } else {
-                pickImageFromGallery()
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "image/*"
+                startActivityForResult(intent, REQUEST_CODE)
             }
         }
     }
 
-    private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -260,7 +305,7 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
                 if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED
                 ) {
-                    pickImageFromGallery()
+                    pickImage()
                 } else {
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
                 }
@@ -270,38 +315,26 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
 
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            /* if (data != null) {
+        val sharedPreferences = this.getSharedPreferences(IMAGES, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
 
-                // This is the key line item, URI specifies the name of the data
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+             if (data != null) {
                  val mImageUri = data.data
-
-                // Removes Uri Permission so that when you restart the device, it will be allowed to reload.
-                grantUriPermission(
-                    this.packageName,
-                    mImageUri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                if (mImageUri != null) {
-                    this.contentResolver.takePersistableUriPermission(mImageUri, takeFlags)
-                }
-
-                // Saves image URI as string to Default Shared Preferences
-                val preferences: SharedPreferences = this.getSharedPreferences("images",Context.MODE_PRIVATE)
-                val editor = preferences.edit()
-                editor.putString("image", java.lang.String.valueOf(mImageUri))
-                editor.apply()
-            }*/
+                 editor.putString(IMG_TOGETHER,mImageUri.toString())
+                 editor.apply()
+                 Toast.makeText(this, "Image successfully saved", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
 
 
     companion object {
-        private val IMAGE_PICK_CODE = 100
+        private val REQUEST_CODE = 610
         private val PERMISSION_CODE = 100
 
     }

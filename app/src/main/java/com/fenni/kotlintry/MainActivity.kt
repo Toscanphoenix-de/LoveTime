@@ -7,6 +7,8 @@ package com.fenni.kotlintry
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -21,10 +23,11 @@ import android.view.MotionEvent
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import java.io.IOException
 import java.time.LocalDate
 import java.time.Period
-import java.time.Year
-import java.util.*
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
@@ -34,9 +37,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     var x2 = 0.0f
     var x1 = 0.0f
 
+    private val CHANNEL_ID = "fenni_danni"
+    private val notificationID = 610
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,16 +61,43 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
          //dateCalculation.dateCheckAndSet(this,MEET_DATE,1000212,1000319,1000011,1000144,1000358)
+        createNotificationChannel()
 
         dateCheckAndSet()
-        pickImage()
+       /* try {
+            picture()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }*/
         namesCheckAndSet()
+
 
 
         gestureDetector = GestureDetector(this, this)
 
 
+
     }
+
+
+
+    private fun createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val name = "LoveTime"
+            val descriptionTest = "LoveTime"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionTest
+            }
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
+
+    }
+
+
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
@@ -108,80 +141,53 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
-    // image Picker
-    private fun pickImage() {
-        findViewById<Button>(R.id.img_picker).setOnClickListener {
-            //check runtime permission
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                //denied
-                val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                requestPermissions(permission, PERMISSION_CODE)
-            } else {
-                pickImageFromGallery()
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun picture(){
+        pictureCheckAndSet()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun pictureCheckAndSet() {
+        try {
+            val sharedPreferences = this.getSharedPreferences(IMAGES, Context.MODE_PRIVATE)
+            val dataPref = sharedPreferences.getString(IMG_TOGETHER, null)
+
+            if (checkSelfPermission(Manifest.permission.ACCESS_MEDIA_LOCATION) == PackageManager.PERMISSION_DENIED || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                val permissionRead = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermissions(permissionRead, PERMISSION_CODE)
+                val permissionMedia = arrayOf(Manifest.permission.ACCESS_MEDIA_LOCATION)
+                requestPermissions(permissionMedia, PERMISSION_CODE)
             }
+            if (dataPref != null) {
+                val uri = Uri.parse(dataPref)
+
+                findViewById<ImageView>(R.id.photo).setImageURI(uri)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
+
     }
 
-    private fun pickImageFromGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, IMAGE_PICK_CODE)
-    }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when (requestCode) {
+        when(requestCode){
             PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED
-                ) {
-                    pickImageFromGallery()
-                } else {
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    pictureCheckAndSet()
+                }else{
+                    Toast.makeText(this, "Permission was denied ", Toast.LENGTH_SHORT).show()
                 }
-
             }
         }
-
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            findViewById<ImageView>(R.id.photo).setImageURI(data?.data)
-        }
-        /*
-        val sharedPreferences = this.getSharedPreferences("images", Context.MODE_PRIVATE)
-        val datapref = sharedPreferences.getString("image", null)
-        if (datapref != null){
-            if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-                val uri = Uri.parse(datapref)
-                findViewById<ImageView>(R.id.photo).setImageURI(uri)
-            }
-        }else if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            val imageData = data?.data
-            findViewById<ImageView>(R.id.photo).setImageURI(imageData)
-            val editor = sharedPreferences.edit()
-            editor.putString("image",imageData.toString())
-            editor.apply()
-            finish()
-        }*/
-    }
-
-    private fun pictureCheckAndSet() {
-        val sharedPreferences = this.getSharedPreferences("images", Context.MODE_PRIVATE)
-        val dataPref = sharedPreferences.getString("image", null)
-        TODO("Adding Permission to read and get")
-        if (dataPref != null) {
-            val uri = Uri.parse(dataPref)
-            findViewById<ImageView>(R.id.photo).setImageURI(uri)
-        }
-
     }
 
 
@@ -201,6 +207,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         const val DAY= "day"
 
         const val NAME = "name"
+
+        const val IMAGES = "images"
+        const val IMG_TOGETHER = "img_together"
+
     }
 
 
@@ -212,6 +222,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val savedYear = sharedPref.getInt(YEAR, 0)
         val savedMonth = sharedPref.getInt(MONTH, 0)
         val savedDay = sharedPref.getInt(DAY, 0)
+
 
         findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"
 
