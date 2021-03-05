@@ -7,14 +7,18 @@ Track the time since you meet your special Person.
 
 # What does the app contain
 - Calender to insert your date
-- Custom Image Picker
 - Track date and display it in years, months, days
 - Detailed version of period 
+- more trackable dates eg. engagement, marriage, divorce
 
 # Whats coming in future
-
-- more trackable dates eg. engagement, marriage, divorce
 - amount of time in weeks or recalc in days since
 - Notifications 
-- -Save Image for restart 
-- 
+- Image Picker for all dates
+- choose color
+
+
+# Whats coming behind the scenes
+- rearrange Code
+- outsource Code into extra classes
+- Doe more desing stuff
