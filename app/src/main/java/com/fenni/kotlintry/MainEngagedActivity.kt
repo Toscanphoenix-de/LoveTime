@@ -5,6 +5,7 @@ package com.fenni.kotlintry
  * @version: 1.0
  * @since: 2021-03-03*/
 
+import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -41,9 +42,8 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
-
-        if (sharedPreferences.getInt(YEAR,-1)==-1){
+        val sharedPreferences = SharedPreferences(this, ENGAGEMENT_DATE)
+        if (sharedPreferences.getValueInt(YEAR)==-1){
             val intent = Intent(this, FirstEngagementActivity::class.java)
             startActivity(intent)
             finish()
@@ -64,12 +64,9 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
 
     //----------------------------------------------------------------------------------------------Name
     private fun namesCheckAndSet() {
-        val sharedPreferences = this.getSharedPreferences(NAMES, Context.MODE_PRIVATE)
+        val sharedPreferencesNames = SharedPreferences(this, NAMES)
 
-        val name =
-            sharedPreferences.getString(NAME, "Here could be your name. Change it in settings")
-
-        findViewById<TextView>(R.id.bannerName).text = name
+        findViewById<TextView>(R.id.bannerName).text = sharedPreferencesNames.getValueString(NAME)
 
     }
 
@@ -104,15 +101,15 @@ class MainEngagedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
     //----------------------------------------------------------------------------------------------Date
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSet() {
-        val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
+        val sharedPreferencesDate = SharedPreferences(this, ENGAGEMENT_DATE)
 
-        val savedYear = sharedPref.getInt(YEAR, 0)
-        val savedMonth = sharedPref.getInt(MONTH, 0)
-        val savedDay = sharedPref.getInt(DAY, 0)
+        val savedYear = sharedPreferencesDate.getValueInt(YEAR)
+        val savedMonth = sharedPreferencesDate.getValueInt(MONTH)
+        val savedDay = sharedPreferencesDate.getValueInt(DAY)
 
-        if (sharedPref.getInt(YEAR,-1) == -1){
-            findViewById<TextView>(R.id.dateBannerEngaged).text= "Oh-Oh Something went wrong"
-        }else
+        if (sharedPreferencesDate.getValueInt(YEAR) == -1){
+            findViewById<TextView>(R.id.dateBannerEngaged).text = "Oho´h"
+        }
         findViewById<TextView>(R.id.dateBannerEngaged).text = "$savedDay.$savedMonth.$savedYear"
 
 

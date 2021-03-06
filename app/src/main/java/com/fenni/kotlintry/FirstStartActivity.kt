@@ -12,7 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import com.fenni.kotlintry.MainActivity.Companion.DAY
 import com.fenni.kotlintry.MainActivity.Companion.MEET_DATE
+import com.fenni.kotlintry.MainActivity.Companion.MONTH
+import com.fenni.kotlintry.MainActivity.Companion.YEAR
 import java.util.*
 
 
@@ -50,14 +53,11 @@ class FirstStartActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         val saveYear = year
         val saveMonth = month +1
 
-        val sharedPref = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
+        val sharedPreferences = SharedPreferences(this, MEET_DATE)
 
-        editor.putInt("year", saveYear)
-        editor.putInt("month", saveMonth)
-        editor.putInt("day", dayOfMonth)
-
-        editor.apply()
+        sharedPreferences.save(YEAR,saveYear)
+        sharedPreferences.save(MONTH,saveMonth)
+        sharedPreferences.save(DAY,dayOfMonth)
 
         Toast.makeText(this,"Date successfully stored", Toast.LENGTH_SHORT).show()
 
