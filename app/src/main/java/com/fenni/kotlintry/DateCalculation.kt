@@ -14,13 +14,13 @@ import java.time.Period
 class DateCalculation(context: Context) : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun dateCheckAndSet(context: Context, string_Prefs : String, banner : Int, amount_days : Int, amount_month:Int, amount_years : Int, mainOut: Int) {
+    fun dateCheckAndSet(string_Prefs : String, banner : Int, amount_days : Int, amount_month:Int, amount_years : Int, mainOut: Int) {
 
-        val sharedPref = context.getSharedPreferences(string_Prefs, Context.MODE_PRIVATE)
+        val sharedPreferences = SharedPreferences(this,string_Prefs)
 
-        val savedYear = sharedPref.getInt(YEAR, 0)
-        val savedMonth = sharedPref.getInt(MONTH, 0)
-        val savedDay = sharedPref.getInt(DAY, 0)
+        val savedYear = sharedPreferences.getValueInt(YEAR)
+        val savedMonth = sharedPreferences.getValueInt(MONTH)
+        val savedDay = sharedPreferences.getValueInt(DAY)
 
 
         findViewById<TextView>(banner).text = "$savedDay.$savedMonth.$savedYear"
