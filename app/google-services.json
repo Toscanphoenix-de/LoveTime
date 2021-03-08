@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "158176004951",
+    "project_id": "lovetime-2cf31",
+    "storage_bucket": "lovetime-2cf31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158176004951:android:68f8c2e697ca9abdb70c12",
+        "android_client_info": {
+          "package_name": "com.fenni.kotlintry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158176004951-dipb1ak9sne957pn12gnk215d8t4nm82.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDJzdCnPaogBptGCmHS2X7tTMYkX12Rro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158176004951-dipb1ak9sne957pn12gnk215d8t4nm82.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
