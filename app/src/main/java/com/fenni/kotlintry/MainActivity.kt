@@ -6,7 +6,6 @@ package com.fenni.kotlintry
  * @since: 2021-2-20*/
 
 import android.Manifest
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -16,16 +15,10 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.GestureDetector
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
+import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import java.io.IOException
 import java.time.LocalDate
 import java.time.Period
 import kotlin.math.abs
@@ -41,7 +34,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private val notificationID = 610
 
 
-
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +46,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             startActivity(intent)
             finish()
         } else {
-            setContentView(R.layout.activity_main)
+            val mMainView: View = layoutInflater.inflate(R.layout.activity_main,null)
+            setContentView(mMainView)
             val toolbar: Toolbar? = findViewById(R.id.header)
             setSupportActionBar(toolbar)
         }
@@ -63,7 +56,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
          //dateCalculation.dateCheckAndSet( MEET_DATE,1000212,1000319,1000011,1000144,1000358)
         createNotificationChannel()
 
-       // dateCheckAndSet()
+        dateCheckAndSetTwo()
        /* try {
             picture()
         } catch (e: Exception) {
@@ -111,7 +104,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             1 -> {
                 x2 = event.x
 
-                7
+                
                 val valueX = x2 - x1
 
                 if (abs(valueX) > MIN_DISTANCE){
@@ -213,6 +206,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     //-------------------------------------------------------------------------------------------------Date
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSet() {
+        val mMainView : View = layoutInflater.inflate(R.layout.activity_main,null)
+        val calc = DateCalculation(this)
+
+
 
         val sharedPreferencesDate = SharedPreferences(this, MEET_DATE)
 
@@ -228,19 +225,52 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             savedMonth < 10 -> {
                 if (savedDay < 10) {
                     val dateString = "$savedYear-0$savedMonth-0$savedDay"
-                    onDateSetText(dateCalc(dateString, dateToday))
+                    calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
                 } else {
                     val dateString = "$savedYear-0$savedMonth-$savedDay"
-                    onDateSetText(dateCalc(dateString, dateToday))
+                    calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
                 }
             }
             savedDay < 10 -> {
                 val dateString = "$savedYear-$savedMonth-0$savedDay"
-                onDateSetText(dateCalc(dateString, dateToday))
+                calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
             }
             else -> {
                 val dateString = "$savedYear-$savedMonth-$savedDay"
-                onDateSetText(dateCalc(dateString, dateToday))
+                calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun dateCheckAndSetTwo() {
+        val sharedPreferencesDate = SharedPreferences(this, MEET_DATE)
+        val calc = DateCalculation(this)
+
+        val savedYear = sharedPreferencesDate.getValueInt(YEAR,)
+        val savedMonth = sharedPreferencesDate.getValueInt(MONTH)
+        val savedDay = sharedPreferencesDate.getValueInt(DAY)
+
+        findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"
+
+        val dateToday = LocalDate.now()
+        when {
+            savedMonth < 10 -> {
+                if (savedDay < 10) {
+                    val dateString = "$savedYear-0$savedMonth-0$savedDay"
+                    onDateSetText(calc.dateCalc(dateString, dateToday))
+                } else {
+                    val dateString = "$savedYear-0$savedMonth-$savedDay"
+                    onDateSetText(calc.dateCalc(dateString, dateToday))
+                }
+            }
+            savedDay < 10 -> {
+                val dateString = "$savedYear-$savedMonth-0$savedDay"
+                onDateSetText(calc.dateCalc(dateString, dateToday))
+            }
+            else -> {
+                val dateString = "$savedYear-$savedMonth-$savedDay"
+                onDateSetText(calc.dateCalc(dateString, dateToday))
             }
         }
     }
@@ -366,17 +396,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-//Calculator
-@RequiresApi(Build.VERSION_CODES.O)
- fun dateCalc(string_ourDate: String, date2: LocalDate): Period? {
-
-    println(string_ourDate)
-    val date = LocalDate.parse(string_ourDate)
-
-
-    return Period.between(date, date2)
-}
 
 
 

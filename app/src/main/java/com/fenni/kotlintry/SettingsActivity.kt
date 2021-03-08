@@ -116,10 +116,8 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
 
     private fun reset() {
 
-        val sharedPreferencesMain = getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
-        val editorMain = sharedPreferencesMain.edit()
-        editorMain.clear()
-        editorMain.apply()
+        val sharedPreferencesMain = SharedPreferences(this,MEET_DATE)
+        sharedPreferencesMain.clearSharedPref()
 
        /* val sharedPreferencesEngagement = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
         val editorEngagement = sharedPreferencesEngagement.edit()
@@ -208,13 +206,11 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         when {
             dateTogether -> {
                 dateTogether = false
-                val sharedPref = this.getSharedPreferences(MEET_DATE, Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
-                editor.putInt(YEAR, saveYear)
-                editor.putInt(MONTH, saveMonth)
-                editor.putInt(DAY, dayOfMonth)
+                val sharedPreferences = SharedPreferences(this, MEET_DATE)
 
-                editor.apply()
+                sharedPreferences.save(YEAR,saveYear)
+                sharedPreferences.save(MONTH,saveMonth)
+                sharedPreferences.save(DAY,dayOfMonth)
 
                 Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
 
@@ -224,13 +220,12 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
             }
             dateEngaged -> {
                 dateEngaged = false
-                val sharedPref = this.getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
-                editor.putInt(YEAR, saveYear)
-                editor.putInt(MONTH, saveMonth)
-                editor.putInt(DAY, dayOfMonth)
+                val sharedPreferences = SharedPreferences(this, ENGAGEMENT_DATE)
 
-                editor.apply()
+                sharedPreferences.save(YEAR,saveYear)
+                sharedPreferences.save(MONTH,saveMonth)
+                sharedPreferences.save(DAY,dayOfMonth)
+
 
                 Toast.makeText(this, "Date successfully changed", Toast.LENGTH_SHORT).show()
 
@@ -239,13 +234,11 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
                 finish()
             }
             dateMarried -> {
-                val sharedPref = this.getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
-                val editor = sharedPref.edit()
-                editor.putInt(YEAR, saveYear)
-                editor.putInt(MONTH, saveMonth)
-                editor.putInt(DAY, dayOfMonth)
+                val sharedPreferences = SharedPreferences(this, MARRIED_DATE)
 
-                editor.apply()
+                sharedPreferences.save(YEAR,saveYear)
+                sharedPreferences.save(MONTH,saveMonth)
+                sharedPreferences.save(DAY,dayOfMonth)
 
                 Toast.makeText(this, "Marriage successfully changed", Toast.LENGTH_SHORT).show()
 
