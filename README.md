@@ -21,4 +21,4 @@ Track the time since you meet your special Person.
 # Whats coming behind the scenes
 - rearrange Code
 - outsource Code into extra classes
-- Doe more desing stuff
+- Do more design stuff
