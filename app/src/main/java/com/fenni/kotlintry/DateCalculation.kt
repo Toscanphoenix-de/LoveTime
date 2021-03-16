@@ -61,18 +61,21 @@ class DateCalculation(context: Context) : AppCompatActivity() {
         val savedMonth = sharedPreferences.getValueInt(MONTH)
         val savedDay = sharedPreferences.getValueInt(DAY)
 
-        val date1 = "$savedDay-$savedMonth-$savedYear"
-        val date2 = LocalDate.now().toString()
-        val dates = SimpleDateFormat("dd-MM-yyyy")
-        val finalDate = dates.parse(date1)
-        val finalDate2 = dates.parse(date2)
+        if (sharedPreferences.getValueInt(YEAR) == -1) {
+            val date1 = "$savedDay-$savedMonth-$savedYear"
+            val date2 = LocalDate.now().toString()
+            val dates = SimpleDateFormat("dd-MM-yyyy")
+            val finalDate = dates.parse(date1)
+            val finalDate2 = dates.parse(date2)
 
-        val difference : Long = abs(finalDate.time - finalDate2.time)
+            val difference: Long = abs(finalDate.time - finalDate2.time)
 
-        val days = difference/(24*60*60*1000)
+            val days = difference / (24 * 60 * 60 * 1000)
 
-        return(days.toInt())
-
+            return (days.toInt())
+        }else{
+            return 0
+        }
 
 
 
@@ -82,6 +85,8 @@ class DateCalculation(context: Context) : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun onDateSetText(period: Period?, mMainView: View, amount_days: Int, amount_month: Int,amount_years: Int,mainOut: Int) {
         if (period != null) {
+
+
 
             val days = period.days
             val months = period.months

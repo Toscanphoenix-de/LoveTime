@@ -5,8 +5,10 @@ package com.fenni.kotlintry
  * @version: 1.0
  * @since: 2021-03-04*/
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,11 +20,16 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.fenni.kotlintry.MainActivity.Companion.CHANNEL_ID
 import com.fenni.kotlintry.MainActivity.Companion.DAY
+import com.fenni.kotlintry.MainActivity.Companion.ENGAGEMENT_DATE
 import com.fenni.kotlintry.MainActivity.Companion.MARRIED_DATE
 import com.fenni.kotlintry.MainActivity.Companion.MONTH
 import com.fenni.kotlintry.MainActivity.Companion.NAME
 import com.fenni.kotlintry.MainActivity.Companion.NAMES
+import com.fenni.kotlintry.MainActivity.Companion.NOTIFICATION_ID
 import com.fenni.kotlintry.MainActivity.Companion.YEAR
 import java.time.LocalDate
 import java.time.Period
@@ -93,16 +100,17 @@ class MainMarriedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSet() {
-        val sharedPref = this.getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
+        val sharedPreferencesDate = SharedPreferences(this, MARRIED_DATE)
 
-        val savedYear = sharedPref.getInt(YEAR, 0)
-        val savedMonth = sharedPref.getInt(MONTH, 0)
-        val savedDay = sharedPref.getInt(DAY, 0)
+        val savedYear = sharedPreferencesDate.getValueInt(YEAR)
+        val savedMonth = sharedPreferencesDate.getValueInt(MONTH)
+        val savedDay = sharedPreferencesDate.getValueInt(DAY)
 
-        if (sharedPref.getInt(YEAR,-1) == -1){
-            findViewById<TextView>(R.id.dateBannerMarried).text= "Oh-Oh Something went wrong"
-        }else
-            findViewById<TextView>(R.id.dateBannerMarried).text = "$savedDay.$savedMonth.$savedYear"
+        if (sharedPreferencesDate.getValueInt(YEAR) == -1){
+            val intent = Intent(this,FirstMarriedActivity::class.java)
+            startActivity(intent)
+        }else{
+            findViewById<TextView>(R.id.dateBannerMarried).text = "$savedDay.$savedMonth.$savedYear"}
 
 
         val dateToday = LocalDate.now()
@@ -130,6 +138,8 @@ class MainMarriedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onDateSetText(period: Period?) {
         if (period != null) {
+
+            isItWorthAnNotification(period)
 
             val days = period.days
             val months = period.months
@@ -259,6 +269,83 @@ class MainMarriedActivity : AppCompatActivity(),GestureDetector.OnGestureListene
         return super.onTouchEvent(event)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isItWorthAnNotification(period: Period?) {
+
+        val dateCalculation = DateCalculation(this)
+        val daysSince = dateCalculation.getDaysSince(this, MARRIED_DATE)
+
+        if(period != null){
+
+            val years = period.years
+            val months = period.months
+            val days = period.days
+
+            if(years != 0 ) {
+                if ((years % 0) == 0 && months == 0 && days == 0) {
+                    sendNotifications("Today you have been together $years years")
+                }
+            }
+            else if(months != 0){
+                if(years<1){
+                    if ((months%1) == 0 && days == 0){
+                        sendNotifications("Today you have been together $months months ")
+                    }
+                }
+                else if( years >= 1){
+                    if ((months%3)== 0 && days == 0){
+                        sendNotifications("Today you have been together $years years and $months months")
+                    }
+                }
+            }
+            else if(years == 0 && months == 0) {
+                if(days == 30){
+                    sendNotifications("Today you have been together for $days days")
+                }
+            }
+            else if( daysSince% 50 == 0 && daysSince< 500){
+                sendNotifications("Today you have been together for $daysSince days")
+            }
+            else if (daysSince > 500 && daysSince%100 == 0){
+                sendNotifications("Today you have been together for $daysSince days")
+            }
+            else if (months==5 && daysSince == 3){
+                sendNotifications("Today you have been together for $daysSince days")
+            }
+            else if(daysSince%11 == 0){
+                sendNotifications("Today you have been together for $daysSince days")
+            }
+            else if(daysSince%111 == 0){
+                sendNotifications("Today you have been together for $daysSince days")
+            }
+
+
+        }
+
+    }
+
+    private fun sendNotifications(string: String) {
+
+        val intent = Intent(this, MainActivity::class.java).apply{
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK  or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getActivity(this,0,intent,0)
+
+        val bitmap = BitmapFactory.decodeResource(this.resources,R.drawable.heart_idea_icon)
+
+        val  builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.heart_idea_icon)
+            .setContentTitle("Love Time ")
+            .setContentText("A special day is today")
+            .setStyle(NotificationCompat.BigTextStyle().bigText(string))
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(NOTIFICATION_ID, builder.build())
+        }
+
+    }
 
 
     override fun onDown(e: MotionEvent?): Boolean {

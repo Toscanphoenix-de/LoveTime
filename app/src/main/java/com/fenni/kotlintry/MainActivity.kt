@@ -31,10 +31,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     lateinit var gestureDetector: GestureDetector
     private val dateCalculation = DateCalculation(this)
+    private var alreadySend = false
     var x2 = 0.0f
     var x1 = 0.0f
 
-    private val CHANNEL_ID = "fenni_danni"
+
     private val notificationID = 610
 
 
@@ -54,27 +55,18 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             setContentView(mMainView)
             val toolbar: Toolbar? = findViewById(R.id.header)
             setSupportActionBar(toolbar)
+            dateCheckAndSetTwo()
+            namesCheckAndSet()
         }
 
 
-         //dateCalculation.dateCheckAndSet( MEET_DATE,1000212,1000319,1000011,1000144,1000358)
         createNotificationChannel()
-
-        dateCheckAndSetTwo()
-       /* try {
-            picture()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }*/
-        namesCheckAndSet()
 
 
 
         gestureDetector = GestureDetector(this, this)
 
-        findViewById<Button>(R.id.button_notification).setOnClickListener {
-            sendNotifications("Dies ist eine reine Testnachricht")
-        }
+
 
     }
 
@@ -193,6 +185,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         const val MIN_DISTANCE = 150
 
         const val NOTIFICATION_ID = 610
+        const val CHANNEL_ID = "fenni_danni"
 
         const val MEET_DATE: String = "meetDate"
         const val ENGAGEMENT_DATE:String = "engagementDate"
@@ -212,7 +205,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
     //-------------------------------------------------------------------------------------------------Date
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun dateCheckAndSetTwo() {
         val sharedPreferencesDate = SharedPreferences(this, MEET_DATE)
@@ -222,7 +214,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val savedMonth = sharedPreferencesDate.getValueInt(MONTH)
         val savedDay = sharedPreferencesDate.getValueInt(DAY)
 
-        findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"
+        if (sharedPreferencesDate.getValueInt(YEAR) == -1){
+            val intent = Intent(this,FirstStartActivity::class.java)
+            startActivity(intent)
+        }else{
+        findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"}
 
 
         val dateToday = LocalDate.now()
@@ -249,18 +245,20 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
+
     private fun onDateSetText(period: Period?) {
+
         if (period != null) {
 
+
             isItWorthAnNotification(period)
+
+
 
             val days = period.days
             val months = period.months
             val years = period.years
 
-            /*println(days)
-            println(months)
-            println(years)*/
 
             findViewById<TextView>(R.id.amount_days_together).text = days.toString()
             findViewById<TextView>(R.id.amount_month_together).text = months.toString()
