@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fenni.kotlintry">
+    package="com.fenni.lovetime">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -13,17 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinTry">
-        <activity android:name=".FirstMarriedActivity" />
-        <activity android:name=".FirstEngagementActivity" />
-        <activity android:name=".MainMarriedActivity" />
-        <activity android:name=".MainEngagedActivity" />
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name="com.fenni.lovetime.FirstMarriedActivity" />
+        <activity android:name="com.fenni.lovetime.FirstEngagementActivity" />
+        <activity android:name="com.fenni.lovetime.MainMarriedActivity" />
+        <activity android:name="com.fenni.lovetime.MainEngagedActivity" />
+        <activity android:name="com.fenni.lovetime.HelpActivity" />
+        <activity android:name="com.fenni.lovetime.AboutActivity" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.fenni.lovetime.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".FirstStartActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.fenni.lovetime.FirstStartActivity" />
+        <activity android:name="com.fenni.lovetime.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
