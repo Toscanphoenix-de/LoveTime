@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinTry">
-        <activity android:name=".Details"></activity>
         <activity android:name=".FirstMarriedActivity" />
         <activity android:name=".FirstEngagementActivity" />
         <activity android:name=".MainMarriedActivity" />

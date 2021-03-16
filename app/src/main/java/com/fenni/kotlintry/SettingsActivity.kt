@@ -119,15 +119,11 @@ class SettingsActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener 
         val sharedPreferencesMain = SharedPreferences(this,MEET_DATE)
         sharedPreferencesMain.clearSharedPref()
 
-       /* val sharedPreferencesEngagement = getSharedPreferences(ENGAGEMENT_DATE, Context.MODE_PRIVATE)
-        val editorEngagement = sharedPreferencesEngagement.edit()
-        editorEngagement.clear()
-        editorEngagement.apply()*/
+        val sharedPreferencesEngage = SharedPreferences(this, ENGAGEMENT_DATE)
+        sharedPreferencesEngage.clearSharedPref()
 
-        /*val sharedPreferencesMarried = getSharedPreferences(MARRIED_DATE, Context.MODE_PRIVATE)
-        val editorMarried = sharedPreferencesMarried.edit()
-        editorMarried.clear()
-        editorMarried.apply()*/
+        val sharedPreferencesMarried = SharedPreferences(this, MARRIED_DATE)
+        sharedPreferencesMarried.clearSharedPref()
 
         val sharedPreferencesNames = getSharedPreferences(NAMES, Context.MODE_PRIVATE)
         val editorNames = sharedPreferencesNames.edit()

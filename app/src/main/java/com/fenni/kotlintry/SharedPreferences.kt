@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class SharedPreferences(context : Context, string: String) {
-    val sharedPreferences: SharedPreferences = context.getSharedPreferences(string,0)
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(string,0)
 
 
     // Put in //

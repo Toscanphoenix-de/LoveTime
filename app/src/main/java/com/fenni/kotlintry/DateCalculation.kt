@@ -1,5 +1,6 @@
 package com.fenni.kotlintry
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.View
@@ -9,8 +10,10 @@ import androidx.annotation.RequiresApi
 import com.fenni.kotlintry.MainActivity.Companion.DAY
 import com.fenni.kotlintry.MainActivity.Companion.MONTH
 import com.fenni.kotlintry.MainActivity.Companion.YEAR
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
+import kotlin.math.abs
 
 class DateCalculation(context: Context) : AppCompatActivity() {
 
@@ -48,6 +51,33 @@ class DateCalculation(context: Context) : AppCompatActivity() {
         }
     }
 */
+
+    @SuppressLint("SimpleDateFormat")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getDaysSince(context: Context, string: String): Int {
+        val sharedPreferences = SharedPreferences(context, string)
+
+        val savedYear = sharedPreferences.getValueInt(YEAR)
+        val savedMonth = sharedPreferences.getValueInt(MONTH)
+        val savedDay = sharedPreferences.getValueInt(DAY)
+
+        val date1 = "$savedDay-$savedMonth-$savedYear"
+        val date2 = LocalDate.now().toString()
+        val dates = SimpleDateFormat("dd-MM-yyyy")
+        val finalDate = dates.parse(date1)
+        val finalDate2 = dates.parse(date2)
+
+        val difference : Long = abs(finalDate.time - finalDate2.time)
+
+        val days = difference/(24*60*60*1000)
+
+        return(days.toInt())
+
+
+
+
+
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onDateSetText(period: Period?, mMainView: View, amount_days: Int, amount_month: Int,amount_years: Int,mainOut: Int) {
