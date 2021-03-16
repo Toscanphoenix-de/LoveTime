@@ -236,10 +236,7 @@ class AboutActivity : AppCompatActivity(), PurchasesUpdatedListener {
         return try {
             // To get key go to Developer Console > Select your app > Development Tools > Services & APIs.
 
-            val base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhDXdyUY0QCoMRhEyaM8DYqZ" +
-                    "rP/ZoBjey1Oa1dh6JZU5opFPScC+uVuOdYvX/H7iw+nQmheYkUC4Gh8A/BfpRm9fB+XdCrmYBvvTRO1dmoS7SuCGpHRENbd54lBGy" +
-                    "ft7DCEDiJoh4UTz5RvUfEb4G9Dc0ZGpLejwiBPRVol0VxUAPPoAfA6eaG1gWwr4uPpGqOjhwvhmpWYkw8/Ku6IJu7+DOgPZqpgC9vV/990FVj2CUc/" +
-                    "9EdMel3rcIvd9GuFzRN2oeQxbw8br0EizLmsOcCE6z5xM6k27YbI8fvog06k8gDw1FoMwyg3IlDHlItQaIfGNSDPYNhJUJKdreUEjF/wIDAQAB"
+            val base64 Key ="" 
             verifyPurchase(base64Key,signedData,signature)
         } catch (e: IOException) {
             false
