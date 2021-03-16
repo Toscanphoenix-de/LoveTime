@@ -62,3 +62,41 @@
             finish()
         }*/
     }
+
+      @RequiresApi(Build.VERSION_CODES.O)
+        private fun dateCheckAndSet() {
+            val mMainView : View = layoutInflater.inflate(R.layout.activity_main,null)
+            val calc = DateCalculation(this)
+
+
+
+            val sharedPreferencesDate = SharedPreferences(this, MEET_DATE)
+
+            val savedYear = sharedPreferencesDate.getValueInt(YEAR,)
+            val savedMonth = sharedPreferencesDate.getValueInt(MONTH)
+            val savedDay = sharedPreferencesDate.getValueInt(DAY)
+
+
+            findViewById<TextView>(R.id.dateBanner).text = "$savedDay.$savedMonth.$savedYear"
+
+            val dateToday = LocalDate.now()
+            when {
+                savedMonth < 10 -> {
+                    if (savedDay < 10) {
+                        val dateString = "$savedYear-0$savedMonth-0$savedDay"
+                        calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
+                    } else {
+                        val dateString = "$savedYear-0$savedMonth-$savedDay"
+                        calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
+                    }
+                }
+                savedDay < 10 -> {
+                    val dateString = "$savedYear-$savedMonth-0$savedDay"
+                    calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
+                }
+                else -> {
+                    val dateString = "$savedYear-$savedMonth-$savedDay"
+                    calc.onDateSetText(calc.dateCalc(dateString, dateToday), mMainView,1000318,1000011,1000415,1000358)
+                }
+            }
+        }
