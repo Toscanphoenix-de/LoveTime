@@ -9,11 +9,11 @@ Track the time since you meet your special Person.
 - Calender to insert your date
 - Track date and display it in years, months, days
 - Detailed version of period 
-- more trackable dates eg. engagement, marriage, divorce
+- more dates eg. engagement, marriage, divorce
 
 # Whats coming in future
-- amount of time in weeks or recalc in days since
-- Notifications 
+- amount of time in weeks or recalculation in days since
+- real Notifications
 - Image Picker for all dates
 - choose color
 
